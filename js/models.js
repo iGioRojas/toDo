@@ -23,7 +23,15 @@ export default class Model{
     }
 
     getToDos(){
-        return this.toDos;
+        // const listTodo = [];
+
+        // for (const todo of this.toDos){
+        //     listTodo.push({...todo});
+        // }
+
+        // return listTodo;
+
+        return this.toDos.map((todo) => ({...todo}));
 
     }
 
@@ -51,6 +59,14 @@ export default class Model{
         this.save();
 
         return {...todo};
+    }
+
+    editTodo(id,values){
+        const index = this.findTodo(id);
+
+        Object.assign(this.toDos[index],values);
+
+        this.save();
     }
 
     removeTodo(id){
