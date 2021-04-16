@@ -95,6 +95,34 @@ export default class View {
     }
 
     filters(filters){
-        console.log(filters);
+        //analogia con tuplas de python.
+        const {type,words} = filters;
+
+        //agarra todos los elementos menos el primero.
+        const [,...rows] = this.table.getElementsByTagName('tr');
+
+        for(const row of rows){
+            // 0,1,2
+            const [title,description,completed] = row.children;
+
+            let shouldHide = false;
+
+            if (words){
+                shouldHide = !title.innerText.includes(words) && !description.innerText.includes(words);
+            }
+            const shoulBeCompleted = type === 'completed';
+
+            const isCompleted = completed.children[0].checked;
+
+            if(type !== 'all' && shoulBeCompleted !== isCompleted){
+                shouldHide = true;
+            }
+
+            if (shouldHide){
+                row.classList.add('d-none');
+            }else{
+                row.classList.remove('d-none');
+            }
+         }
     }
 }
